@@ -15,7 +15,7 @@ const config: CapacitorConfig = {
       keystoreAlias: undefined,
       keystorePassword: undefined,
       keystoreAliasPassword: undefined,
-      releaseType: 'APK'
+      releaseType: 'APK'  // Setting specifically to APK instead of AAB
     }
   }
 };
