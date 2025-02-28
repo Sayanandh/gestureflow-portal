@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">gestureflow-portal</string>
+    <string name="title_activity_main">gestureflow-portal</string>
+    <string name="package_name">app.lovable.e524ab61217347e18a3af9297ce9fcc7</string>
+    <string name="custom_url_scheme">app.lovable.e524ab61217347e18a3af9297ce9fcc7</string>
+</resources>
