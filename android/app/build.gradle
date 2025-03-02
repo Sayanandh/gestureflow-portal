@@ -17,23 +17,6 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
-    
-    signingConfigs {
-        debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-        }
-        // Uncomment this block and provide valid values when ready for release signing
-        // release {
-        //     storeFile file('YOUR_KEYSTORE_FILE')
-        //     storePassword 'YOUR_KEYSTORE_PASSWORD'
-        //     keyAlias 'YOUR_KEY_ALIAS'
-        //     keyPassword 'YOUR_KEY_PASSWORD'
-        // }
-    }
-    
     buildTypes {
         debug {
             minifyEnabled false
@@ -41,11 +24,8 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            // Uncomment this line when using a release signing config
-            // signingConfig signingConfigs.release
         }
     }
     
@@ -55,8 +35,6 @@ android {
 }
 
 repositories {
-    google()
-    mavenCentral()
     flatDir{
         dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
     }
