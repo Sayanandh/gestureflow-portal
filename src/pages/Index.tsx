@@ -4,16 +4,19 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Upload, Camera, Image, FileVideo } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/layout/Layout";
+import { usePlatform } from "@/utils/platform";
+import { MobileButton, MobileCard } from "@/components/ui/mobile-ui";
 
 const Index = () => {
   const featureRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const { isMobile } = usePlatform();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("animate-slide-up");
+            entry.target.classList.add(isMobile ? "slide-up-mobile" : "animate-slide-up");
             entry.target.classList.remove("opacity-0", "translate-y-10");
           }
         });
@@ -30,8 +33,109 @@ const Index = () => {
         if (ref) observer.unobserve(ref);
       });
     };
-  }, []);
+  }, [isMobile]);
 
+  // Mobile version of the home page
+  if (isMobile) {
+    return (
+      <Layout>
+        {/* Hero Section - Mobile Version */}
+        <section className="py-8">
+          <div className="container px-4">
+            <div className="flex flex-col items-center text-center space-y-4 max-w-3xl mx-auto slide-up-mobile">
+              <div className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
+                Sign Language Interpreter
+              </div>
+              <h1 className="text-2xl font-bold tracking-tight">
+                Breaking Barriers with 
+                <span className="text-primary ml-1">Sign Language Recognition</span>
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                Upload images, videos, or use your camera for real-time sign language interpretation.
+              </p>
+              <div className="flex flex-col gap-3 pt-2 w-full">
+                <MobileButton asChild size="lg">
+                  <Link to="/webcam">
+                    Start Live Capture
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </MobileButton>
+                <MobileButton asChild variant="outline" size="lg">
+                  <Link to="/image-upload">
+                    <Upload className="mr-2 h-4 w-4" />
+                    Upload Media
+                  </Link>
+                </MobileButton>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section - Mobile Version */}
+        <section className="py-8">
+          <div className="container px-4">
+            <div className="grid grid-cols-1 gap-4">
+              {/* Mobile Feature Cards */}
+              <FeatureMobileCard
+                to="/image-upload"
+                icon={<Image className="h-6 w-6" />}
+                title="Image Upload"
+                description="Upload images for interpretation"
+                delay={0}
+              />
+              
+              <FeatureMobileCard
+                to="/video-upload"
+                icon={<FileVideo className="h-6 w-6" />}
+                title="Video Upload"
+                description="Upload videos for analysis"
+                delay={100}
+              />
+              
+              <FeatureMobileCard
+                to="/webcam"
+                icon={<Camera className="h-6 w-6" />}
+                title="Live Capture"
+                description="Use camera for real-time recognition"
+                delay={200}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* How It Works Section - Mobile Version */}
+        <section className="py-8 bg-muted/30">
+          <div className="container px-4">
+            <div className="text-center mb-6">
+              <h2 className="text-xl font-bold">How It Works</h2>
+            </div>
+
+            <div className="space-y-4">
+              {steps.map((step, index) => (
+                <div 
+                  key={index}
+                  className="flex items-start p-4 bg-card rounded-xl shadow-sm border border-border/10 slide-up-mobile"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="h-8 w-8 bg-primary/10 text-primary flex items-center justify-center rounded-full mr-4 flex-shrink-0">
+                    <span className="font-medium text-sm">{index + 1}</span>
+                  </div>
+                  <div>
+                    <h3 className="text-base font-semibold mb-1">{step.title}</h3>
+                    <p className="text-xs text-muted-foreground">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </Layout>
+    );
+  }
+
+  // Web version (original UI)
   return (
     <Layout>
       {/* Hero Section */}
@@ -198,6 +302,35 @@ const Index = () => {
         </div>
       </section>
     </Layout>
+  );
+};
+
+// Mobile feature card component
+interface FeatureMobileCardProps {
+  to: string;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  delay: number;
+}
+
+const FeatureMobileCard = ({ to, icon, title, description, delay }: FeatureMobileCardProps) => {
+  return (
+    <Link to={to} className="block">
+      <MobileCard 
+        className="slide-up-mobile touch-scale flex items-center p-4"
+        style={{ animationDelay: `${delay}ms` }}
+      >
+        <div className="h-10 w-10 bg-primary/10 text-primary flex items-center justify-center rounded-lg mr-4">
+          {icon}
+        </div>
+        <div className="flex-1">
+          <h3 className="text-lg font-semibold">{title}</h3>
+          <p className="text-xs text-muted-foreground">{description}</p>
+        </div>
+        <ArrowRight className="h-4 w-4 text-muted-foreground" />
+      </MobileCard>
+    </Link>
   );
 };
 
