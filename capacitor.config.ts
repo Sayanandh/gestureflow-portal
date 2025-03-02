@@ -17,6 +17,22 @@ const config: CapacitorConfig = {
       keystoreAliasPassword: undefined,
       releaseType: 'APK'  // Setting specifically to APK instead of AAB
     }
+  },
+  plugins: {
+    CapacitorHttp: {
+      enabled: true
+    },
+    SplashScreen: {
+      launchShowDuration: 3000,
+      launchAutoHide: true,
+      backgroundColor: "#ffffff",
+      androidSplashResourceName: "splash",
+      splashFullScreen: true,
+      splashImmersive: true
+    },
+    Permissions: {
+      camera: "prompt"
+    }
   }
 };
 
